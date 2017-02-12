@@ -8,8 +8,8 @@ from PIL import ImageFont
 class MyNode:
 #x,y should be in range 0-1
     def __init__(self, x, y, aisle_num, node_type):
-        self.x = x
-        self.y = y
+        self.x = 1 - x
+        self.y = 1 - y
         self.aisle_num = aisle_num
         self.node_type = node_type
 
@@ -22,7 +22,7 @@ def create_store_map():
     aisle_edges = []
 
 #vertical aisles
-    num_vert_aisles = 4
+    num_vert_aisles = 3
     for i in range(1, num_vert_aisles + 1):
 #In x,y format
         aisle_nodes.append((i * 0.1, 0.5))
@@ -36,11 +36,11 @@ def create_store_map():
         aisle_edges.append((2 * i + 1, 2 * i + 3, 0))
 
 #Horizontal aisles
-    num_hori_aisles = 6
+    num_hori_aisles = 7
     for i in range(1, num_hori_aisles + 1):
 #In x,y format
         aisle_nodes.append(((num_vert_aisles + 1) * 0.1, i * 0.1))
-        aisle_nodes.append(((num_vert_aisles + 1)* 0.1 + 0.4, i * 0.1))
+        aisle_nodes.append(((num_vert_aisles + 1)* 0.1 + 0.3, i * 0.1))
 
 #Index of nodes followed by aisle_num. aisle_num = 0 if edge is not an aisle.
     for i in range(0 , num_hori_aisles):
@@ -62,13 +62,13 @@ def create_store_map():
     return G
 
 
-def display_map(store_map):
+def display_map(store_map, filename):
     img_dim = 800
     img_scale = img_dim/1;
 
     im = Image.new('RGB', (img_dim, img_dim), 'white')
     draw = ImageDraw.Draw(im)
-    font = ImageFont.truetype('arial.ttf', int(10 * img_scale / img_dim ))
+    font = ImageFont.truetype('arial.ttf', int(12 * img_scale / img_dim ))
 
     aisle_items = {}
 #Plot items
@@ -89,7 +89,7 @@ def display_map(store_map):
     for edge in store_map.edges(data = True):
         node0 = store_map.node[edge[0]]['data']
         node1 = store_map.node[edge[1]]['data']
-        draw.line((node0.x * img_scale, img_dim - node0.y * img_scale, node1.x * img_scale, img_dim - node1.y * img_scale), fill='black')
+        draw.line((node0.x * img_scale, img_dim - node0.y * img_scale, node1.x * img_scale, img_dim - node1.y * img_scale), fill='black', width=2)
         if edge[2]['aisle_num'] != 0:
 #Per aisle item list
             if edge[2]['aisle_num'] in aisle_items:
@@ -100,10 +100,10 @@ def display_map(store_map):
 
 #Text co-ords
             text_x = (node0.x + node1.x + 0.02) * img_scale / 2
-            text_y = img_dim - (node0.y + node1.y + 0.03) * img_scale / 2
+            text_y = img_dim - (node0.y + node1.y + 0.04) * img_scale / 2
             draw.text((text_x, text_y), 'Aisle ' + str(edge[2]['aisle_num']), 'black', font=font)
 
-    im.save('test.bmp')
+    im.save(filename + '.bmp')
     print(aisle_text)
 
 
@@ -119,9 +119,15 @@ def add_items(store_map):
 
 
 def main():
-    store_map = create_store_map()
-    add_items(store_map)
-    display_map(store_map)
+    filename = 'test1'
+    if 1:
+        store_map = create_store_map()
+        add_items(store_map)
+        networkx.write_gpickle(store_map, filename + '.gpickle')
+    else:
+        store_map = networkx.read_gpickle(filename + '.gpickle')
+        
+    display_map(store_map, filename)
 
 if __name__ == '__main__':
     main()
