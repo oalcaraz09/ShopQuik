@@ -8,3 +8,6 @@ def index(request):
 
 def signin(request):
     return render(request, "shopquik/signin.html/")
+
+def signup(request):
+    return render(request, "shopquik/signup.html/")
