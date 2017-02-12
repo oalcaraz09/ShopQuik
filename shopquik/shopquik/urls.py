@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^$', views.homepage, name="homepage"),
     url(r'^login/', include('login.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^signin/$', views.signin, name="signin"),
 ]
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
