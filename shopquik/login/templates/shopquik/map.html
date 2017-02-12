@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 {% extends 'shopquik/global.html' %}
-
-
 <body>
 {% block main_content %}
-<p>Render Map Here:</p>
-<image src="{{ map }}">
-
-<table class="table">
+<h1 class="text-center" style="padding-top:20px">{{ store_name }} ShopQuik Guide</h1>
+{% load staticfiles %}
+<image src="{% static 'shopquik/images/cur_map.jpeg' %}" alt="Missing" height="600" width="80%">
+<h2 class="text-center">QuikStops</h2>
+<table class="table text-center">
     {% for aisle in aisles_used %}
     <tr>
         <td>Aisle {{ aisle.number }}</td>
@@ -23,16 +22,6 @@
         </td>
     </tr>
     {% endfor %}
-
-
-
-
-
-
-
-
-
-
 </table>
 </body>
 {% endblock %}

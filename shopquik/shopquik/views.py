@@ -1,10 +1,14 @@
 from django.shortcuts import render
+from django.contrib import auth
 import requests
 import json
 
 def homepage(request):
     return render(request,'shopquik/homepage.html/')
 
+def logout(request):
+    auth.logout(request)
+    return render(request, "shopquik/homepage.html")
 # def stores(request):
 #     list_name = request.session['list_name']
 #     if request.POST:

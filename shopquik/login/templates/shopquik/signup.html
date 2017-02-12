@@ -2,8 +2,6 @@
 
 
 {% block main_content %}
-  <h1>This is the sign up Page</h1>
-  <p>Form should be here</p>
 <form action="{% url 'login:signup' %}" method="post">
     {% csrf_token %}
     {{ user_form }}

@@ -1,12 +1,16 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
+from django.utils.text import slugify
 from .forms import *
 from django.contrib.auth.hashers import make_password
 from .models import *
 import requests
 import json
-from graph import *
+
+from . import graph
+from shutil import copyfile
+import os
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
@@ -112,8 +116,16 @@ def addItems(request):
             else:
                 item_form = ItemForm()
                 return render(request,'shopquik/list.html/',{'item_form':item_form,'list_name':list_name,'lists':list})
-        else:
+        elif 'item_delete' in request.POST:
+            items = Item.objects.filter(item_name=request.POST.get('item_delete'))
+            for item in items:
+                for l in list:
+                    l.items.remove(item)
 
+            item_form = ItemForm()
+            return render(request, 'shopquik/list.html/',
+                          {'item_form': item_form, 'list_name': list_name, 'lists': list})
+        else:
             item_form = ItemForm()
             return render(request,'shopquik/list.html/',{'item_form':item_form,'list_name':list_name,'lists':list})
     else:
@@ -146,33 +158,28 @@ def map(request):
     stores = Store.objects.filter(address=address)
     print("stores: ",stores)
     aisles_used=[]
-	store_name = ""
+    store_name = ""
     for store in stores:
         print("MESSAGE: ", store)
-		store_name = store.store_name
+        store_name = store.store_name
         aisles = store.aisles.all()
         for aisle in aisles:
             for item in list[0].items.all():
                 for i in aisle.items.all():
-                    print("i: ",i)
-                    print("item: ", item)
                     if i.item_name == item.item_name:
                         if aisle not in aisles_used:
                             aisles_used.append(aisle)
 
     print("aisles: ", aisles_used)
-	
-	map_aisles = []
-	
-	for aisle in aisles_used:
-		map_aisles.append(aisle.number)
-		
-	map_img_filename = draw_map(store_name, aisles_used)
+    map_aisles = [aisle.number for aisle in aisles_used]
+    map_img_filename = graph.draw_map(slugify(store_name), map_aisles)
+    copyfile(map_img_filename, 'login/static/shopquik/images/cur_map.jpeg')
 
     return render(request, 'shopquik/map.html',{
         'list':list,
-        # 'store':store,
+        'store_name':store_name,
         # 'aisles':aisles,
         'aisles_used':aisles_used,
-		'map':map_img_filename
+        'map_name':'cur_map.jpeg'
     })
+

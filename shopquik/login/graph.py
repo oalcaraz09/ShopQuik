@@ -85,7 +85,7 @@ def display_map(store_map, highlight_aisles, filename):
             text_y = img_dim - (node0.y + node1.y + 0.04) * img_scale / 2
             draw.text((text_x, text_y), 'Aisle ' + str(edge[2]['aisle_num']), 'black', font=font)
 
-    im.save(filename + '.bmp')
+    im.save(filename + '.jpeg')
 
 
 def add_items(store_map):
@@ -107,5 +107,5 @@ def draw_map(filename, highlight_aisles):
     else:
         store_map = networkx.read_gpickle(filename + '.gpickle')
     display_map(store_map, highlight_aisles, filename)    
-    image_filename = os.path.abspath(filename + '.bmp')
+    image_filename = os.path.abspath(filename + '.jpeg')
     return image_filename

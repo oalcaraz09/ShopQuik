@@ -9,14 +9,17 @@
     {% csrf_token %}
     {{ item_form }}
         <input type="hidden" name="list_name" value="{{ list_name }}">
-    <input type="submit" class="btn btn-default" name="item_submit" value="Submit" />
+        <button type="submit" class="btn btn-success" name="item_submit" value="Submit">Add</button>
     </form>
 </div>
 <div class="list-container">
     <table class="table table-striped">
         {% for list in lists %}
             {% for item in list.items.all %}
-                <p>{{ item.item_name }} <button class="btn btn-danger">X</button></p>
+                <form action="{% url 'login:addItem' %}" method="post">
+                    {% csrf_token %}
+                    <p>{{ item.item_name }} <button type="submit" class="btn btn-danger" name="item_delete" value="{{item.item_name}}">X</button></p>
+                </form>
             {% endfor %}
         {% endfor %}
     </table>
