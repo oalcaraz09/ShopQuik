@@ -62,7 +62,7 @@ def create_store_map():
     return G
 
 
-def display_map(store_map, filename):
+def display_map(store_map, highlight_aisles, filename):
     img_dim = 800
     img_scale = img_dim/1;
 
@@ -70,41 +70,23 @@ def display_map(store_map, filename):
     draw = ImageDraw.Draw(im)
     font = ImageFont.truetype('arial.ttf', int(12 * img_scale / img_dim ))
 
-    aisle_items = {}
-#Plot items
-    dot_radius = 0.005
-    dot_radius = dot_radius * img_scale
-    for node in store_map.nodes(data = True):
-        node = node[1]['data']
-        if node.node_type is not None:
-            x = node.x * img_scale
-            y = img_dim - node.y * img_scale
-            draw.ellipse([x-dot_radius, y-dot_radius, x+dot_radius, y+dot_radius], fill='red')
-            if node.aisle_num in aisle_items:
-                aisle_items[node.aisle_num].append(node.node_type)
-            else:
-                aisle_items[node.aisle_num]  = [node.node_type]
-
-    aisle_text = ''
+    highlight_aisle = {}
     for edge in store_map.edges(data = True):
         node0 = store_map.node[edge[0]]['data']
         node1 = store_map.node[edge[1]]['data']
-        draw.line((node0.x * img_scale, img_dim - node0.y * img_scale, node1.x * img_scale, img_dim - node1.y * img_scale), fill='black', width=2)
-        if edge[2]['aisle_num'] != 0:
-#Per aisle item list
-            if edge[2]['aisle_num'] in aisle_items:
-                aisle_text += 'Aisle ' + str(edge[2]['aisle_num'])
-                for aisle_item in aisle_items[edge[2]['aisle_num']]:
-                    aisle_text += '\n' + str(aisle_item)
-                aisle_text += '\n\n'
+        
+        if edge[2]['aisle_num'] in highlight_aisles:
+            draw.line((node0.x * img_scale, img_dim - node0.y * img_scale, node1.x * img_scale, img_dim - node1.y * img_scale), fill='red', width=2)
+        else:
+            draw.line((node0.x * img_scale, img_dim - node0.y * img_scale, node1.x * img_scale, img_dim - node1.y * img_scale), fill='black', width=3)
 
+        if edge[2]['aisle_num'] != 0:
 #Text co-ords
             text_x = (node0.x + node1.x + 0.02) * img_scale / 2
             text_y = img_dim - (node0.y + node1.y + 0.04) * img_scale / 2
             draw.text((text_x, text_y), 'Aisle ' + str(edge[2]['aisle_num']), 'black', font=font)
 
     im.save(filename + '.bmp')
-    print(aisle_text)
 
 
 def add_items(store_map):
@@ -126,8 +108,9 @@ def main():
         networkx.write_gpickle(store_map, filename + '.gpickle')
     else:
         store_map = networkx.read_gpickle(filename + '.gpickle')
-        
-    display_map(store_map, filename)
+    
+    highlight_aisles = [1, 2, 5]
+    display_map(store_map, highlight_aisles, filename)
 
 if __name__ == '__main__':
     main()
