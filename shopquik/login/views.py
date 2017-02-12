@@ -122,8 +122,9 @@ def addItems(request):
 def stores(request):
     list_name = request.session['list_name']
     if request.POST:
-        address = "91768" #request.POST.get("address", "")
-        locdata = requests.get("https://maps.googleapis.com/maps/api/geocode/json?address="+ str(address) +"&key=AIzaSyAwpVMPCRmLfoa7CxGQr4SrmmkwPm4iiSE", timeout=1)
+        address = request.POST.get("address", "")
+        requestString = "https://maps.googleapis.com/maps/api/geocode/json?address="+ str(address) +"&key=AIzaSyAwpVMPCRmLfoa7CxGQr4SrmmkwPm4iiSE"
+        locdata = requests.get(requestString)
         loc = json.loads(locdata.text)['results'][0]['geometry']['location']
         location = str(loc['lat']) + ',' + str(loc['lng'])
         data = requests.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ str(location) +"&radius=5000&keyword=Stater&key=AIzaSyC5Ygtct3M5odZ_iu45po0Rby9I3VEpLZc")
@@ -135,3 +136,6 @@ def stores(request):
         "list": list,
         "list_name":list_name
     })
+
+def map(request):
+    list_name = request.session['list_name']
