@@ -23,17 +23,24 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     lists = models.ForeignKey(List, on_delete=models.CASCADE,null=True, blank=True )
 
+    def __str__(self):
+        return self.user.first_name + " " + self.user.last_name
+
 class Aisle(models.Model):
     number = models.IntegerField()
     items = models.ManyToManyField(Item)
 
+    def __str__(self):
+        return str(self.number)
+
 class Store(models.Model):
     store_name = models.CharField(max_length=30)
-    aisles = models.ForeignKey(Aisle, on_delete=models.CASCADE)
-
+    address = models.CharField(max_length=100)
+    aisles = models.ManyToManyField(Aisle, null=True, blank=True)
 
     def __str__(self):
-        return self.user.first_name + " " + self.user.last_name
+        return self.store_name
+
 
 #create an associated profile everytime a user is created
 def create_profile(sender, **kwargs):

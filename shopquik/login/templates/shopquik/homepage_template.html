@@ -1,23 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    {% load staticfiles %}
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
-    <link rel="stylesheet" type ="text/css" href="{% static 'shopquik/css/bootstrap.min.css' %}"/>
-    <script src="{% static 'shopquik/js/jquery-3.1.1.min.js' %}"></script>
-    <script src="{% static 'shopquik/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'shopquik/js/moment-2.17.1.js' %}"></script>
-    <script src="{% static 'shopquik/js/bootstrap-datetimepicker.js' %}"></script>
-    <script src="{% static 'shopquik/js/bootstrap-datepicker.js' %}"></script>
-  </head>
-
+{% extends 'shopquik/global.html' %}
   <body>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">

@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>List Page</title>
-</head>
+{% extends 'shopquik/global.html' %}
 <body>
+{% block main_content %}
 <h1>{{ list_name }}</h1>
 <div>
     <form action="{% url 'login:addItem' %}" method="post">
@@ -24,5 +22,6 @@
     </table>
         <a href="{% url 'login:stores' %}" class="btn btn-success" >Done</a>
 </div>
+{% endblock %}
 </body>
 </html>

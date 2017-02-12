@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Store Select</title>
-</head>
+{% extends 'shopquik/global.html' %}
 <body>
+{% block main_content %}
 <form action="{% url 'login:stores' %}" method="POST">
     {% csrf_token %}
     <label>Enter Zip:</label>
@@ -14,14 +12,15 @@
 <table>
 {% for store in store_list %}
 <tr>
-    <form >
+    <form action="{% url 'login:map' %}" method="POST">
+        {% csrf_token %}
     <td>{{ store.name }}</td>
-    <td>{{ store.vicinity }}<input type="hidden" name="store" value="{{ store.vicinity }}"></td>
+    <td>{{ store.vicinity }}<input type="hidden" name="address" value="{{ store.vicinity }}"></td>
     <td><button type="submit">Select</button></td>
     </form>
 </tr>
 {% endfor %}
 </table>
-
+{% endblock %}
 </body>
 </html>

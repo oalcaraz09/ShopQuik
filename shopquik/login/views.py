@@ -121,10 +121,10 @@ def addItems(request):
 
 def stores(request):
     list_name = request.session['list_name']
-    if request.POST:
+    if request.method == 'POST':
         address = request.POST.get("address", "")
         requestString = "https://maps.googleapis.com/maps/api/geocode/json?address="+ str(address) +"&key=AIzaSyAwpVMPCRmLfoa7CxGQr4SrmmkwPm4iiSE"
-        locdata = requests.get(requestString)
+        locdata = requests.get(requestString, timeout=1)
         loc = json.loads(locdata.text)['results'][0]['geometry']['location']
         location = str(loc['lat']) + ',' + str(loc['lng'])
         data = requests.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ str(location) +"&radius=5000&keyword=Stater&key=AIzaSyC5Ygtct3M5odZ_iu45po0Rby9I3VEpLZc")
@@ -139,3 +139,30 @@ def stores(request):
 
 def map(request):
     list_name = request.session['list_name']
+    address = request.POST.get("address", "")
+    print("MESSAGE: address ",address)
+    list = List.objects.filter(list_name=list_name)
+    stores = Store.objects.filter(address=address)
+    print("stores: ",stores)
+    aisles_used=[]
+
+    for store in stores:
+        print("MESSAGE: ", store)
+        aisles = store.aisles.all()
+        for aisle in aisles:
+            for item in list[0].items.all():
+                for i in aisle.items.all():
+                    print("i: ",i)
+                    print("item: ", item)
+                    if i.item_name == item.item_name:
+                        if aisle not in aisles_used:
+                            aisles_used.append(aisle)
+
+    print("aisles: ", aisles_used)
+
+    return render(request, 'shopquik/map.html',{
+        'list':list,
+        # 'store':store,
+        # 'aisles':aisles,
+        'aisles_used':aisles_used
+    })

@@ -1,10 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Map</title>
-</head>
-<body>
+{% extends 'shopquik/global.html' %}
 
+
+<body>
+{% block main_content %}
+<p>Render Map Here:</p>
+
+
+<table class="table">
+    {% for aisle in aisles_used %}
+    <tr>
+        <td>Aisle {{ aisle.number }}</td>
+
+        <td>{% for item in list.0.items.all %}
+                {% for i in aisle.items.all %}
+                    {% if i.item_name == item.item_name %}
+                        <p>{{ item }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </td>
+    </tr>
+    {% endfor %}
+
+
+
+
+
+
+
+
+
+
+</table>
 </body>
+{% endblock %}
 </html>
