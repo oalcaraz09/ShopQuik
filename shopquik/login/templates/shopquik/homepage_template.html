@@ -1,40 +1,64 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Upward Bound Summer Program</title>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
     {% load staticfiles %}
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
-    <link rel="stylesheet" type ="text/css" href="{% static 'mysite/css/bootstrap.min.css' %}"/>
-    <script src="{% static 'mysite/js/jquery-3.1.1.min.js' %}"></script>
-    <script src="{% static 'mysite/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'mysite/js/moment-2.17.1.js' %}"></script>
-    <script src="{% static 'mysite/js/bootstrap-datetimepicker.js' %}"></script>
-    <script src="{% static 'mysite/js/bootstrap-datepicker.js' %}"></script>
-</head>
-<body>
+    <link rel="stylesheet" type ="text/css" href="{% static 'shopquik/css/bootstrap.min.css' %}"/>
+    <script src="{% static 'shopquik/js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'shopquik/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'shopquik/js/moment-2.17.1.js' %}"></script>
+    <script src="{% static 'shopquik/js/bootstrap-datetimepicker.js' %}"></script>
+    <script src="{% static 'shopquik/js/bootstrap-datepicker.js' %}"></script>
+  </head>
 
-<!-- HEADER -->
-<div class="page-header">
-  <h1>HackPoly<small>2017</small></h1>
-</div>
+  <body>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="{% url 'homepage' %}">Home</a>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">ShopQuik</a>
+        </div>
+       <!--/.navbar-collapse -->
+          <div class="navbar-form navbar-right">
+          <button type="submit" class="btn btn-success">Sign in</button>
+          <button type="submit" class="btn btn-primary">Sign up</button>
+          </div>
+      </div>
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container text-center">
+        <h1>Welcome to ShopQuik</h1>
+        <p></p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Get Started &raquo;</a></p>
+      </div>
     </div>
-   </div>
-  </nav>
-</body>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>HackPoly 2017</p>
+      </footer>
+    </div> <!-- /container -->
+
+  </body>
 </html>
