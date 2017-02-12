@@ -1,8 +1,8 @@
-import matplotlib.pyplot as plt
 import networkx
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
+import os
 
 
 class MyNode:
@@ -70,7 +70,6 @@ def display_map(store_map, highlight_aisles, filename):
     draw = ImageDraw.Draw(im)
     font = ImageFont.truetype('arial.ttf', int(12 * img_scale / img_dim ))
 
-    highlight_aisle = {}
     for edge in store_map.edges(data = True):
         node0 = store_map.node[edge[0]]['data']
         node1 = store_map.node[edge[1]]['data']
@@ -100,17 +99,13 @@ def add_items(store_map):
         store_map.add_node(max(store_map.nodes()) + 1, data = item)
 
 
-def main():
-    filename = 'test1'
+def draw_map(filename, highlight_aisles):
     if 1:
         store_map = create_store_map()
         add_items(store_map)
         networkx.write_gpickle(store_map, filename + '.gpickle')
     else:
         store_map = networkx.read_gpickle(filename + '.gpickle')
-    
-    highlight_aisles = [1, 2, 5]
-    display_map(store_map, highlight_aisles, filename)
-
-if __name__ == '__main__':
-    main()
+    display_map(store_map, highlight_aisles, filename)    
+    image_filename = os.path.abspath(filename + '.bmp')
+    return image_filename

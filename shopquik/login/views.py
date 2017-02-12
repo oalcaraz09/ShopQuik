@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 from .models import *
 import requests
 import json
+from graph import *
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
@@ -145,9 +146,10 @@ def map(request):
     stores = Store.objects.filter(address=address)
     print("stores: ",stores)
     aisles_used=[]
-
+	store_name = ""
     for store in stores:
         print("MESSAGE: ", store)
+		store_name = store.store_name
         aisles = store.aisles.all()
         for aisle in aisles:
             for item in list[0].items.all():
@@ -159,10 +161,18 @@ def map(request):
                             aisles_used.append(aisle)
 
     print("aisles: ", aisles_used)
+	
+	map_aisles = []
+	
+	for aisle in aisles_used:
+		map_aisles.append(aisle.number)
+		
+	map_img_filename = draw_map(store_name, aisles_used)
 
     return render(request, 'shopquik/map.html',{
         'list':list,
         # 'store':store,
         # 'aisles':aisles,
-        'aisles_used':aisles_used
+        'aisles_used':aisles_used,
+		'map':map_img_filename
     })
