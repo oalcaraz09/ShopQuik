@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Store Select</title>
+</head>
+<body>
+<table>
+{% for store in store_list %}
+<tr>
+    <td>{{ store.name }}</td>
+    <td>{{ store.vicinity }}</td>
+</tr>
+    {% endfor %}
+
+</table>
+<form action="/stores/" method="POST">
+    {% csrf_token %}
+    <label>Enter Zip:</label>
+    <input type="text" name="address">
+    <button class="btn btn-success" type="submit">Search</button>
+</form>
+</body>
+</html>
