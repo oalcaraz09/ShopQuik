@@ -5,9 +5,8 @@
 <h1>Welcome {{ user.first_name }}</h1>
 
 <h3>Create a new shopping list:</h3>
-  <form action="{% url 'login:createList' %}" method="post">
-    {% csrf_token %}
-    {{ list_form }}
-    <input type="submit" class="btn btn-success" name="list_submit" value="Submit" />
-</form>
+
+<a href="{% url 'login:createlist' %}">Create List</a>
+<a href="{% url 'login:updatestore' %}">Update Store</a>
+
 {% endblock %}

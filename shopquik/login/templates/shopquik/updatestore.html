@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'shopquik/global.html' %}
+<body>
+{% block main_content %}
+<h1>Store Locator</h1>
+<form action="{% url 'login:stores' %}" method="POST">
+    {% csrf_token %}
+    <label>Enter Zip:</label>
+    <input type="text" name="address">
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+<table>
+{% for store in store_list %}
+<tr>
+    <form action="{% url 'login:updatestore' %}" method="POST">
+        {% csrf_token %}
+    <td>{{ store.name }}</td>
+    <td>{{ store.vicinity }}<input type="hidden" name="address" value="{{ store.vicinity }}"></td>
+    <td><button class="btn btn-success" type="submit">Select</button></td>
+    </form>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
+</body>
+</html>

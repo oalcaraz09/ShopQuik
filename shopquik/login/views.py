@@ -76,7 +76,7 @@ def signin(request):
         signin_form = SignInForm()
     return render(request, "shopquik/signin.html/",{'signin_form':signin_form})
 
-def createList(request):
+def createlist(request):
     if request.method == 'POST':
         if 'list_submit' in request.POST:
             list_form = ListForm(request.POST)
@@ -91,13 +91,13 @@ def createList(request):
                 })
             else:
                 list_form = ListForm()
-                return render(request, 'shopquik/profile.html/', {'list_form':list_form})
+                return render(request, 'shopquik/createlist.html/', {'list_form':list_form})
         else:
             list_form = ListForm()
-            return render(request,'shopquik/profile.html/', {'list_form':list_form})
+            return render(request,'shopquik/createlist.html/', {'list_form':list_form})
     else:
         list_form = ListForm()
-    return render(request, "shopquik/profile.html/",{'list_form':list_form})
+    return render(request, "shopquik/createlist.html/",{'list_form':list_form})
 
 def addItems(request):
     # list_name = request.POST.get('list_name')
@@ -182,4 +182,31 @@ def map(request):
         'aisles_used':aisles_used,
         'map_name':'cur_map.jpeg'
     })
+
+def profile(request):
+    return render(request,'shopquik/profile.html')
+
+
+# def createlist(request):
+#     return render(request,'shopquik/createlist.html')
+
+def updatestore(request):
+    list_name = request.session['list_name']
+    if request.method == 'POST':
+        address = request.POST.get("address", "")
+        requestString = "https://maps.googleapis.com/maps/api/geocode/json?address="+ str(address) +"&key=AIzaSyAwpVMPCRmLfoa7CxGQr4SrmmkwPm4iiSE"
+        locdata = requests.get(requestString, timeout=1)
+        loc = json.loads(locdata.text)['results'][0]['geometry']['location']
+        location = str(loc['lat']) + ',' + str(loc['lng'])
+        data = requests.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ str(location) +"&radius=5000&keyword=Stater&key=AIzaSyC5Ygtct3M5odZ_iu45po0Rby9I3VEpLZc")
+        stores = json.loads(data.text)['results']
+    else:
+        stores = ""
+    return render(request, 'shopquik/store.html/', {
+        "store_list": stores,
+        "list": list,
+        "list_name":list_name
+    })
+
+    # return render(request,'shopquik/updatestore.html')
 

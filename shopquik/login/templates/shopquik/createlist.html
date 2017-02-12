@@ -1,0 +1,15 @@
+profile.html{% extends 'shopquik/global.html' %}
+
+
+{% block main_content %}
+<h1>Welcome {{ user.first_name }}</h1>
+
+<h3>Create a new shopping list:</h3>
+
+  <form action="{% url 'login:createlist' %}" method="post">
+    {% csrf_token %}
+    {{ list_form }}
+    <input type="submit" class="btn btn-success" name="list_submit" value="Submit" />
+</form>
+
+{% endblock %}
