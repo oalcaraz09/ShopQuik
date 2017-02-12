@@ -2,6 +2,7 @@ import networkx
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
+from PIL import ImageOps
 import os
 
 
@@ -84,7 +85,9 @@ def display_map(store_map, highlight_aisles, filename):
             text_x = (node0.x + node1.x + 0.02) * img_scale / 2
             text_y = img_dim - (node0.y + node1.y + 0.04) * img_scale / 2
             draw.text((text_x, text_y), 'Aisle ' + str(edge[2]['aisle_num']), 'black', font=font)
-
+    
+    imageBox = ImageOps.invert(im).getbbox()
+    im = ImageOps.expand(im.crop(imageBox), border = 10, fill = 'white')
     im.save(filename + '.jpeg')
 
 
