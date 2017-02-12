@@ -12,9 +12,9 @@
     <td>{{ store.vicinity }}</td>
 </tr>
     {% endfor %}
-
+<h1>{{ list_name }}</h1>
 </table>
-<form action="/stores/" method="POST">
+<form action="{% url 'login:stores' %}" method="POST">
     {% csrf_token %}
     <label>Enter Zip:</label>
     <input type="text" name="address">

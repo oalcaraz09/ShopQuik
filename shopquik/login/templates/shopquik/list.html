@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List Page</title>
+</head>
+<body>
+<h1>{{ list_name }}</h1>
+<div>
+    <form action="{% url 'login:addItem' %}" method="post">
+    {% csrf_token %}
+    {{ item_form }}
+        <input type="hidden" name="list_name" value="{{ list_name }}">
+    <input type="submit" class="btn btn-default" name="item_submit" value="Submit" />
+    </form>
+</div>
+<div class="list-container">
+    <table class="table table-striped">
+        {% for list in lists %}
+            {% for item in list.items.all %}
+                <p>{{ item.item_name }} <button class="btn btn-danger">X</button></p>
+            {% endfor %}
+        {% endfor %}
+    </table>
+        <a href="{% url 'login:stores' %}" class="btn btn-success" >Done</a>
+</div>
+</body>
+</html>

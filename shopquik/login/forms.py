@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from login.models import Item, User
+from login.models import *
 
 
 class UserForm(forms.ModelForm):
@@ -20,14 +20,17 @@ class SignInForm(forms.Form):
     Login form
     """
     email = forms.EmailField(widget=forms.widgets.TextInput)
-    # password1 = forms.CharField(widget=forms.widgets.PasswordInput)
     password = forms.CharField(widget=forms.widgets.PasswordInput)
 
     class Meta:
-        # fields = ['email', 'password1']
         fields = ['email', 'password']
 
-class ItemForm(ModelForm):
+class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
         fields = ['item_name']
+
+class ListForm(ModelForm):
+    class Meta:
+        model = List
+        fields = ['list_name']
